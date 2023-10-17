@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822a0a79a6b822b4baefe2b309786cf8, type: 3}
+  m_Name: House_Phase2_Dialog 1
+  m_EditorClassIdentifier: 
+  characterName: "Ant\xF3n"
+  dialogText: "Filla me pondr\xE9 bien, \xA1no te preocupes m\xE1s por m\xED!\r"
+  voiceSFX: {fileID: 8300000, guid: 724b295a401caf64cb0987ec8d7ee9db, type: 3}
+  characterPortrait: {fileID: 21300000, guid: 476a63c9a72ceeb47bd356220bcb0b64, type: 3}

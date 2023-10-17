@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822a0a79a6b822b4baefe2b309786cf8, type: 3}
+  m_Name: NPC_Perro_Dialog 2
+  m_EditorClassIdentifier: 
+  characterName: Peregrino
+  dialogText: "\xA1Seguramente vi\xF3 un apetitoso conejo!"
+  voiceSFX: {fileID: 8300000, guid: 2005935c1ad8c60408f5d6851600337f, type: 3}
+  characterPortrait: {fileID: 21300000, guid: 911978987e4a6fe42844be8900a926ad, type: 3}
