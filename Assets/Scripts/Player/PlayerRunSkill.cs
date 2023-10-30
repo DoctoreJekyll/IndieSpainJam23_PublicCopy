@@ -13,10 +13,9 @@ namespace Player
         private ParticleSystem sweatParticle;
         
         [Header("Components")] 
-        [SerializeField] private Animator animator;
+        [SerializeField] private Animator dayAnimator;
         [SerializeField] private Animator nightAnimator;
-        [SerializeField] private AudioSource audioS;
-        
+
         private float timePlayerCanSprint;
         private float TimePlayerCanSprint
         {
@@ -25,12 +24,12 @@ namespace Player
         }
         [SerializeField] private float sprintCooldown;
 
-        private bool canSprint;
+        public bool CanSprint { get; private set; }
         public bool isOnMug;
         
         private void Start()
         {
-            canSprint = true;
+            CanSprint = true;
         }
 
         private void Update()
@@ -39,36 +38,15 @@ namespace Player
 
             if (TimePlayerCanSprint >= sprintCooldown)
             {
-                canSprint = false;
+                CanSprint = false;
                 sweatParticle.Play();
                 
             }
             else if (TimePlayerCanSprint <= 0)
             {
                 TimePlayerCanSprint = 0;
-                canSprint = true;
+                CanSprint = true;
                 sweatParticle.Stop();
-                audioS.Stop();
-            }
-            
-            ControlSound();
-        }
-
-        private bool soundOn;
-        private void ControlSound()
-        {
-            if (!canSprint)
-            {
-                if (soundOn)
-                {
-                    soundOn = false;
-                    audioS.Play();
-                }
-            }
-            else
-            {
-                audioS.Stop();
-                soundOn = true;
             }
         }
 
@@ -76,10 +54,9 @@ namespace Player
         {
             if (Input.GetKey(KeyCode.LeftShift) && TimePlayerCanSprint < sprintCooldown)
             {
-                if (canSprint)
+                if (CanSprint)
                 {
-                    animator.speed = 2f;
-                    nightAnimator.speed = 2f;
+                    ChangeAnimationVelocity(2f);
                     TimePlayerCanSprint += Time.deltaTime;
 
                     if (isOnMug)
@@ -93,8 +70,7 @@ namespace Player
             {
                 if (!isOnMug)
                 {
-                    animator.speed = 1f;
-                    nightAnimator.speed = 1f;
+                    ChangeAnimationVelocity( 1f);
                     playerMovement.speed = playerMovement.normalSpeed;
                     TimePlayerCanSprint -= Time.deltaTime;
                 }
@@ -105,6 +81,12 @@ namespace Player
                 }
  
             }
+        }
+        
+        private void ChangeAnimationVelocity(float newSpeed)
+        {
+            dayAnimator.speed = newSpeed;
+            nightAnimator.speed = newSpeed;
         }
     }
 }
