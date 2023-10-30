@@ -1,4 +1,5 @@
 using System;
+using Core;
 using UnityEngine;
 
 namespace Player
@@ -18,7 +19,16 @@ namespace Player
 
         private void Update()
         {
-            ControlSound();
+            if(IsOnGameplay())
+            {
+                ControlSound();
+            }
+        }
+
+        //Preguntar si es mejor hacer esto aqui o directamente en el GameStateController
+        private bool IsOnGameplay()
+        {
+            return GameStateController.Instance.gameState == GameStateController.GameState.Gameplay;
         }
 
         private void ControlSound()

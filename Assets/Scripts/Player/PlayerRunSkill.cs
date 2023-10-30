@@ -5,14 +5,17 @@ namespace Player
 {
     public class PlayerRunSkill : MonoBehaviour
     {
-
-        [SerializeField] private SimpleMovement playerMovement;
+        [Header("Values")]
         [SerializeField] private float runSpeed;
+        [SerializeField] private float sprintCooldown;
+        public bool CanSprint { get; private set; }
+        public bool isOnMug;
 
         [Header("Particle")] [SerializeField] 
         private ParticleSystem sweatParticle;
         
         [Header("Components")] 
+        [SerializeField] private SimpleMovement playerMovement;
         [SerializeField] private Animator dayAnimator;
         [SerializeField] private Animator nightAnimator;
 
@@ -22,11 +25,7 @@ namespace Player
             get => timePlayerCanSprint;
             set => timePlayerCanSprint = Mathf.Max(value, 0);
         }
-        [SerializeField] private float sprintCooldown;
 
-        public bool CanSprint { get; private set; }
-        public bool isOnMug;
-        
         private void Start()
         {
             CanSprint = true;
@@ -52,21 +51,17 @@ namespace Player
 
         private void SprintSkill()
         {
-            if (Input.GetKey(KeyCode.LeftShift) && TimePlayerCanSprint < sprintCooldown)
+            if (Input.GetKey(KeyCode.LeftShift) && CanSprint)
             {
-                if (CanSprint)
-                {
-                    ChangeAnimationVelocity(2f);
-                    TimePlayerCanSprint += Time.deltaTime;
+                ChangeAnimationVelocity(2f);
+                TimePlayerCanSprint += Time.deltaTime;
 
-                    if (isOnMug)
-                        playerMovement.speed = runSpeed / 2;
-                    else
-                        playerMovement.speed = runSpeed;
-                }
-
+                if (isOnMug)
+                    playerMovement.speed = runSpeed / 2;
+                else
+                    playerMovement.speed = runSpeed;
             }
-            else//perdón
+            else
             {
                 if (!isOnMug)
                 {
@@ -79,7 +74,6 @@ namespace Player
                     playerMovement.speed = 0.5f;
                     TimePlayerCanSprint -= Time.deltaTime;
                 }
- 
             }
         }
         

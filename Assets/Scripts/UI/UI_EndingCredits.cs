@@ -9,7 +9,7 @@ public class UI_EndingCredits : MonoBehaviour
     [SerializeField] private AudioSource audiosourceMusica;
     [SerializeField] private AudioSource screamerAudioSource;
     [SerializeField] private AudioSource thunderAudioSource;
-    [SerializeField] private AudioSource compañaAudiosource;
+    [SerializeField] private AudioSource companaASource;
     [SerializeField] private Animator endingAnimator;
     [SerializeField] private GameObject endingPanel;
 
@@ -21,7 +21,7 @@ public class UI_EndingCredits : MonoBehaviour
 
     public void Play_Ending()
     {
-        compañaAudiosource.Stop();
+        companaASource.Stop();
         endingPanel.SetActive(true);
         endingAnimator.Play("ENDING");
     }
