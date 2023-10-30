@@ -11,9 +11,6 @@ namespace Player
         public bool CanSprint { get; private set; }
         public bool isOnMug;
 
-        [Header("Particle")] [SerializeField] 
-        private ParticleSystem sweatParticle;
-        
         [Header("Components")] 
         [SerializeField] private SimpleMovement playerMovement;
         [SerializeField] private Animator dayAnimator;
@@ -33,48 +30,60 @@ namespace Player
 
         private void Update()
         {
-            SprintSkill();
-
-            if (TimePlayerCanSprint >= sprintCooldown)
-            {
-                CanSprint = false;
-                sweatParticle.Play();
-                
-            }
-            else if (TimePlayerCanSprint <= 0)
-            {
-                TimePlayerCanSprint = 0;
-                CanSprint = true;
-                sweatParticle.Stop();
-            }
+            SprintSkillController();
+            SprintSkillTimeControl();
         }
 
-        private void SprintSkill()
+        private void SprintSkillController()
         {
             if (Input.GetKey(KeyCode.LeftShift) && CanSprint)
             {
                 ChangeAnimationVelocity(2f);
-                TimePlayerCanSprint += Time.deltaTime;
+                AddTimeToPlayerSprint(1f);
 
                 if (isOnMug)
-                    playerMovement.speed = runSpeed / 2;
+                    SetPlayerMoveSpeed(runSpeed / 2);
                 else
-                    playerMovement.speed = runSpeed;
+                    SetPlayerMoveSpeed(runSpeed);
             }
             else
             {
                 if (!isOnMug)
                 {
                     ChangeAnimationVelocity( 1f);
-                    playerMovement.speed = playerMovement.normalSpeed;
-                    TimePlayerCanSprint -= Time.deltaTime;
+                    SetPlayerMoveSpeed(playerMovement.normalSpeed);
+                    AddTimeToPlayerSprint(-1f);
                 }
                 else
                 {
-                    playerMovement.speed = 0.5f;
-                    TimePlayerCanSprint -= Time.deltaTime;
+                    SetPlayerMoveSpeed(0.5f);
+                    AddTimeToPlayerSprint(-1f);
                 }
             }
+        }
+
+        private void SprintSkillTimeControl()
+        {
+            if (TimePlayerCanSprint >= sprintCooldown)
+            {
+                CanSprint = false;
+
+            }
+            else if (TimePlayerCanSprint <= 0)
+            {
+                TimePlayerCanSprint = 0;
+                CanSprint = true;
+            }
+        }
+
+        private void SetPlayerMoveSpeed(float newPlayerSpeed)
+        {
+            playerMovement.speed = newPlayerSpeed;
+        }
+
+        private void AddTimeToPlayerSprint(float value)
+        {
+            TimePlayerCanSprint += Time.deltaTime * value;
         }
         
         private void ChangeAnimationVelocity(float newSpeed)
