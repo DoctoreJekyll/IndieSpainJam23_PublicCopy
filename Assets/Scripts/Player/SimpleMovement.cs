@@ -33,9 +33,10 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            if (GameStateController.Instance.gameState == GameStateController.GameState.Gameplay)
+            if (IsOnGameplay())
             {
                 PlayerInputsValues();
+                CheckFaceDirection();
             }
             
             PlayerAnimationController();
@@ -43,23 +44,27 @@ namespace Player
 
         private void FixedUpdate()
         {
-            if (GameStateController.Instance.gameState == GameStateController.GameState.Gameplay)
+            if (IsOnGameplay())
             {
                 CanMove();
             }
             else
             {
                 rb2d.velocity = Vector2.zero;
-                movement = Vector2.zero;//Temporal
+                movement = Vector2.zero;
             }
 
+        }
+        
+        private bool IsOnGameplay()
+        {
+            return GameStateController.Instance.gameState == GameStateController.GameState.Gameplay;
         }
 
         private void PlayerInputsValues()
         {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
-            CheckFaceDirection();
         }
 
         private void CanMove()
@@ -69,22 +74,37 @@ namespace Player
 
         private void PlayerMoveImprove()
         {
-            Vector2 targetSpeed = new Vector2(movement.x, movement.y).normalized * speed;
-            Vector2 accelRate = new Vector2((Mathf.Abs(targetSpeed.x) > 0.01f) ? runAccelAmount : runDeccelAmount,
-                (Mathf.Abs(targetSpeed.y) > 0.01f) ? runAccelAmount : runDeccelAmount);
-            Vector2 speedDif = new Vector2(targetSpeed.x - rb2d.velocity.x, targetSpeed.y - rb2d.velocity.y);
-            Vector2 rate = new Vector2(speedDif.x * accelRate.x, speedDif.y * accelRate.y);
-            
+            Vector2 rate = new Vector2(SpeedDelta().x * AccelerationRate().x, SpeedDelta().y * AccelerationRate().y);
             rb2d.AddForce(rate, ForceMode2D.Force);
+        }
+
+        private Vector2 TargetSpeed()
+        {
+            Vector2 targetSpeed = new Vector2(movement.x, movement.y).normalized * speed;
+            
+            return targetSpeed;
+        }
+
+        private Vector2 AccelerationRate()
+        {
+            Vector2 accelRate = new Vector2((Mathf.Abs(TargetSpeed().x) > 0.01f) ? runAccelAmount : runDeccelAmount,
+                (Mathf.Abs(TargetSpeed().y) > 0.01f) ? runAccelAmount : runDeccelAmount);
+            
+            return accelRate;
+        }
+
+        private Vector2 SpeedDelta()
+        {
+            Vector2 sDelta = new Vector2(TargetSpeed().x - rb2d.velocity.x, TargetSpeed().y - rb2d.velocity.y);
+            return sDelta;
         }
 
         private void CheckFaceDirection()
         {
-            if(movement != Vector2.zero)
-            {
-                faceDirection.x = movement.x;
-                faceDirection.y = movement.y;
-            }
+            if (movement == Vector2.zero) return;
+            
+            faceDirection.x = movement.x;
+            faceDirection.y = movement.y;
 
         }
 
