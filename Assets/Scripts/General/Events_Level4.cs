@@ -12,7 +12,7 @@ public class Events_Level4 : MonoBehaviour
 
     [Header("[Configuration]")]
     [SerializeField] private List<DialogScriptable> levelIntroDialog;
-    [SerializeField] private List<DialogScriptable> santaCompañaDialog;
+    [SerializeField] private List<DialogScriptable> santaCompanaDialog;
 
     private void Awake()
     {
