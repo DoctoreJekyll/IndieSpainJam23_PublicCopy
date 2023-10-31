@@ -6,6 +6,7 @@ using GameEvents;
 using NavMeshPlus.Components;
 using System;
 using Cinemachine;
+using Player;
 
 public class MazeManager : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class MazeManager : MonoBehaviour
     private void Start()
     {
         //Player_DropBread.instance.RestoreBreadAmount();
-        Player_DropBread.instance.gameObject.transform.position = initialPlayerPosition.transform.position;
+        PlayerDropBread.Instance.gameObject.transform.position = initialPlayerPosition.transform.position;
         cameraConfiner.m_BoundingShape2D = levelConfiner;
         navMeshSurface.BuildNavMesh();
     }

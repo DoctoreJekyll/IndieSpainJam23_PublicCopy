@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using GameEvents;
+using Player;
 using UnityEngine;
 
 namespace Core
@@ -14,7 +15,7 @@ namespace Core
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                Player_DropBread.instance.gameObject.GetComponent<Player.PlayerDead>().SetLastCruceiro(gameObject);
+                PlayerDropBread.Instance.gameObject.GetComponent<Player.PlayerDead>().SetLastCruceiro(gameObject);
                 cruceiroEvent.Raise();
             }
         }

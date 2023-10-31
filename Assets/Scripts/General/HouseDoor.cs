@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Player;
 
 public class HouseDoor : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class HouseDoor : MonoBehaviour
     {
         UI_DialogPanel.instance.onEndDialog -= OnEndDialog;
         Core.GameStateController.Instance.ChangeGameStateTo(Core.GameStateController.GameState.Gameplay);
-        Player_Interactor.instance.EnableInteracting();
+        PlayerInteractor.Instance.EnableInteracting();
     }
 
     IEnumerator Coroutine_TeleportToExterior()
@@ -48,7 +49,7 @@ public class HouseDoor : MonoBehaviour
         Core.GameStateController.Instance.ChangeGameStateTo(Core.GameStateController.GameState.Pause);
         yield return new WaitForSeconds(2f);
 
-        Player_Interactor.instance.gameObject.transform.position = exteriorPosition.transform.position;
+        PlayerInteractor.Instance.gameObject.transform.position = exteriorPosition.transform.position;
         cameraConfiner.m_BoundingShape2D = exteriorConfiner;
         UI_FadeCanvas.instance.Play_FadeOut();
         yield return new WaitForSeconds(1f);

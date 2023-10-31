@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class SimpleDialogInteractor : MonoBehaviour, IInteractable
@@ -24,6 +25,6 @@ public class SimpleDialogInteractor : MonoBehaviour, IInteractable
         animator.Play("Idle");
         UI_DialogPanel.instance.onEndDialog -= OnEndDialog;
         Core.GameStateController.Instance.ChangeGameStateTo(Core.GameStateController.GameState.Gameplay);
-        Player_Interactor.instance.EnableInteracting();
+        PlayerInteractor.Instance.EnableInteracting();
     }
 }

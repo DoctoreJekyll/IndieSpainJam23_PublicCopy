@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using UnityEngine;
 
 public class Father : MonoBehaviour, IInteractable
@@ -47,6 +48,6 @@ public class Father : MonoBehaviour, IInteractable
     {
         UI_DialogPanel.instance.onEndDialog -= OnEndDialog;
         Core.GameStateController.Instance.ChangeGameStateTo(Core.GameStateController.GameState.Gameplay);
-        Player_Interactor.instance.EnableInteracting();
+        PlayerInteractor.Instance.EnableInteracting();
     }
 }

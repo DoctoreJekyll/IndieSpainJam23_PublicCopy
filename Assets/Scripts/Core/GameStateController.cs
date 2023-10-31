@@ -37,5 +37,10 @@ namespace Core
         {
             gameState = state;
         }
+
+        public bool IsOnGameplay()
+        {
+            return gameState == GameState.Gameplay;
+        }
     }
 }
