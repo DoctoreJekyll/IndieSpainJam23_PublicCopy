@@ -48,6 +48,15 @@ namespace Player
             ActiveInteractGameObject();
         }
         
+        private void CallInteraction()
+        {
+            if(RayCastIsTouchingObj())
+            {
+                interacting = true;
+                RayCastLaunch().transform.gameObject.GetComponent<IInteractable>().Interact();
+            }
+        }
+        
         private void ActiveInteractGameObject()
         {
             if (RayCastIsTouchingObj())
@@ -66,15 +75,6 @@ namespace Player
                 {
                     alertObj.SetActive(false);
                 }
-            }
-        }
-
-        private void CallInteraction()
-        {
-            if(RayCastIsTouchingObj())
-            {
-                interacting = true;
-                RayCastLaunch().transform.gameObject.GetComponent<IInteractable>().Interact();
             }
         }
 
