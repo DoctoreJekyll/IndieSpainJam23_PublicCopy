@@ -45,11 +45,10 @@ namespace SantaCompana
         // Update is called once per frame
         void Update()
         {
-            if (GameStateController.Instance.gameState == GameStateController.GameState.Gameplay)
+            if (GameStateController.Instance.IsOnGameplay())
             {
                 agent.isStopped = false;
                 AgentFollow(EnemyDestination());
-                //AgentDistance(player);
             }
             else
             {
@@ -57,7 +56,7 @@ namespace SantaCompana
             }
             
             ChangeAgentSpeed();
-            TestAgentDirectionPos();
+            EnemyAgentDirectionFace();
         }
 
         private void ChangeAgentSpeed()
@@ -68,9 +67,15 @@ namespace SantaCompana
             }
             else
             {
-                float distance = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
+                var distance = Distance();
                 agent.speed = distance >= distanceMinPlayer ? outRangePlayerSpeed : normalSpeed;
             }
+        }
+
+        private float Distance()
+        {
+            float distance = Vector3.Distance(this.gameObject.transform.position, player.transform.position);
+            return distance;
         }
 
         private void AgentFollow(Transform target)
@@ -78,21 +83,13 @@ namespace SantaCompana
             agent.SetDestination(target.position);
         }
 
-        //private void AgentDistance(Transform target)
-        //{
-        //    float distance = Vector3.Distance(this.gameObject.transform.position, target.transform.position);
-
-        //    agent.speed = distance >= distanceMinPlayer ? outRangePlayerSpeed : normalSpeed;
-        //}
-
         private Transform EnemyDestination()
         {
             if (followPlayer)
             {
                 return player.transform;
             }
-
-            //TODO Quizas meter un random de dos o tres destinos
+            
             return newDestinationNav.transform;
         }
 
@@ -105,26 +102,31 @@ namespace SantaCompana
         {
             followPlayer =! followPlayer;
         }
-        
-        private Vector2 CheckAgentDirection()
-        {
-            Vector2 direction = (EnemyDestination().position - transform.position).normalized;
-            return direction;
-        }
 
-        private void TestAgentDirectionPos()
+        private void EnemyAgentDirectionFace()
         {
-            Vector2 currentPos = transform.position;
-            Vector2 moveDirection = currentPos - lastPos;
+            var currentPos = CurrentPos();
+            var moveDirection = MoveDirection(currentPos);
             EnemyAnim(moveDirection);
             lastPos = currentPos;
+        }
+
+        private Vector2 MoveDirection(Vector2 currentPos)
+        {
+            Vector2 moveDirection = currentPos - lastPos;
+            return moveDirection;
+        }
+
+        private Vector2 CurrentPos()
+        {
+            Vector2 currentPos = transform.position;
+            return currentPos;
         }
 
         private void EnemyAnim(Vector2 moveDirection)
         {
             animator.SetFloat("Horizontal", moveDirection.x);
             animator.SetFloat("Vertical", moveDirection.y);
-            //animator.SetFloat("Speed", CheckAgentDirection().sqrMagnitude);
         }
     }
 }
